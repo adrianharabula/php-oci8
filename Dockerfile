@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
+        libaio1 \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
@@ -22,6 +23,7 @@ RUN unzip /tmp/instantclient-sqlplus-linux.x64-12.2.0.1.0.zip -d /usr/local/
 RUN ln -s /usr/local/instantclient_12_2 /usr/local/instantclient
 RUN ln -s /usr/local/instantclient/libclntsh.so.12.1 /usr/local/instantclient/libclntsh.so
 RUN ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus
+RUN echo 'export LD_LIBRARY_PATH="/usr/local/instantclient"' >> /root/.bashrc
 
 RUN echo 'instantclient,/usr/local/instantclient' | pecl install oci8
 RUN echo "extension=oci8.so" > /usr/local/etc/php/conf.d/php-oci8.ini

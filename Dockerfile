@@ -11,8 +11,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
-RUN echo "log_errors = On \
-error_log = /dev/stderr" > /usr/local/etc/php/conf.d/php-logs.ini
+COPY docker-php.conf /etc/apache2/conf-enabled/docker-php.conf
+
+RUN printf "log_errors = On \nerror_log = /dev/stderr\n" > /usr/local/etc/php/conf.d/php-logs.ini
 
 RUN a2enmod rewrite
 

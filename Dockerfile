@@ -31,7 +31,7 @@ RUN ln -s /usr/local/instantclient/libclntsh.so.12.1 /usr/local/instantclient/li
 RUN ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus
 
 RUN echo 'export LD_LIBRARY_PATH="/usr/local/instantclient"' >> /root/.bashrc
-RUN echo 'umask 002' >> /root/.bash_profile
+RUN echo 'umask 002' >> /root/.bashrc
 
 RUN echo 'instantclient,/usr/local/instantclient' | pecl install oci8
 RUN echo "extension=oci8.so" > /usr/local/etc/php/conf.d/php-oci8.ini

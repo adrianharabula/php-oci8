@@ -18,9 +18,9 @@ RUN printf "log_errors = On \nerror_log = /dev/stderr\n" > /usr/local/etc/php/co
 RUN a2enmod rewrite
 
 # Oracle instantclient
-ADD instantclient-basiclite-linux.x64-12.2.0.1.0.zip /tmp/
-ADD instantclient-sdk-linux.x64-12.2.0.1.0.zip /tmp/
-ADD instantclient-sqlplus-linux.x64-12.2.0.1.0.zip /tmp/
+ADD instantclient/instantclient-basiclite-linux.x64-12.2.0.1.0.zip /tmp/
+ADD instantclient/instantclient-sdk-linux.x64-12.2.0.1.0.zip /tmp/
+ADD instantclient/instantclient-sqlplus-linux.x64-12.2.0.1.0.zip /tmp/
 
 RUN unzip /tmp/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /usr/local/
 RUN unzip /tmp/instantclient-sdk-linux.x64-12.2.0.1.0.zip -d /usr/local/

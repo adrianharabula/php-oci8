@@ -20,9 +20,9 @@ RUN printf "log_errors = On \nerror_log = /dev/stderr\n" > /usr/local/etc/php/co
 
 RUN a2enmod rewrite
 
-RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -O
-RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/instantclient-sdk-linux.x64-12.2.0.1.0.zip -O
-RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/instantclient-sqlplus-linux.x64-12.2.0.1.0.zip -O
+RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/12.2.0.1.0/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -O
+RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/12.2.0.1.0/instantclient-sdk-linux.x64-12.2.0.1.0.zip -O
+RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/12.2.0.1.0/instantclient-sqlplus-linux.x64-12.2.0.1.0.zip -O
 
 RUN unzip /tmp/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /usr/local/
 RUN unzip /tmp/instantclient-sdk-linux.x64-12.2.0.1.0.zip -d /usr/local/

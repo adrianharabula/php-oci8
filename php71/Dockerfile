@@ -1,4 +1,7 @@
-FROM php:7.1-apache
+FROM php:7.1.16-apache-jessie
+
+#fix for jessie
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
         unzip \
@@ -11,16 +14,15 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
 
-COPY docker-php.conf /etc/apache2/conf-enabled/docker-php.conf
+RUN curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/docker-php.conf -o /etc/apache2/conf-enabled/docker-php.conf
 
 RUN printf "log_errors = On \nerror_log = /dev/stderr\n" > /usr/local/etc/php/conf.d/php-logs.ini
 
 RUN a2enmod rewrite
 
-# Oracle instantclient
-ADD instantclient/instantclient-basiclite-linux.x64-12.2.0.1.0.zip /tmp/
-ADD instantclient/instantclient-sdk-linux.x64-12.2.0.1.0.zip /tmp/
-ADD instantclient/instantclient-sqlplus-linux.x64-12.2.0.1.0.zip /tmp/
+RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -O
+RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/instantclient-sdk-linux.x64-12.2.0.1.0.zip -O
+RUN cd /tmp && curl -L https://raw.github.com/adrianharabula/php7-with-oci8/master/instantclient/instantclient-sqlplus-linux.x64-12.2.0.1.0.zip -O
 
 RUN unzip /tmp/instantclient-basiclite-linux.x64-12.2.0.1.0.zip -d /usr/local/
 RUN unzip /tmp/instantclient-sdk-linux.x64-12.2.0.1.0.zip -d /usr/local/
@@ -33,10 +35,8 @@ RUN ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus
 RUN echo 'export LD_LIBRARY_PATH="/usr/local/instantclient"' >> /root/.bashrc
 RUN echo 'umask 002' >> /root/.bashrc
 
-RUN echo 'instantclient,/usr/local/instantclient' | pecl install oci8
+RUN echo 'instantclient,/usr/local/instantclient' | pecl install oci8-2.1.8
 RUN echo "extension=oci8.so" > /usr/local/etc/php/conf.d/php-oci8.ini
-
-RUN apt-get install nano -y
 
 RUN echo "<?php echo phpinfo(); ?>" > /var/www/html/phpinfo.php
 

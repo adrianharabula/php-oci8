@@ -35,7 +35,7 @@ RUN ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus
 RUN echo 'export LD_LIBRARY_PATH="/usr/local/instantclient"' >> /root/.bashrc
 RUN echo 'umask 002' >> /root/.bashrc
 
-RUN echo 'instantclient,/usr/local/instantclient' | pecl install oci8-2.1.8
+RUN echo 'instantclient,/usr/local/instantclient' | pecl install oci8-2.2.0
 RUN echo "extension=oci8.so" > /usr/local/etc/php/conf.d/php-oci8.ini
 
 RUN echo "<?php echo phpinfo(); ?>" > /var/www/html/phpinfo.php

@@ -26,7 +26,8 @@ RUN unzip /tmp/instantclient-sdk-linux.x64-19.3.0.0.0dbru.zip -d /usr/local/
 RUN unzip /tmp/instantclient-sqlplus-linux.x64-19.3.0.0.0dbru.zip -d /usr/local/
 
 RUN ln -s /usr/local/instantclient_19_3 /usr/local/instantclient
-RUN ln -s /usr/local/instantclient/libclntsh.so.19.1 /usr/local/instantclient/libclntsh.so
+# fixes error "libnnz19.so: cannot open shared object file: No such file or directory"
+RUN ln -s /usr/local/instantclient/lib* /usr/lib
 RUN ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus
 
 RUN echo 'export LD_LIBRARY_PATH="/usr/local/instantclient"' >> /root/.bashrc

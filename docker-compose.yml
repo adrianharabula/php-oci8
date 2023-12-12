@@ -2,14 +2,14 @@ version: '3'
 
 services:
    oracledb:
-     image: wnameless/oracle-xe-11g
+     image: wnameless/oracle-xe-11g-r2
      ports:
       - "1521:1521"
 
    php7-with-oci8:
      depends_on:
        - oracledb
-     image: adrianharabula/php7-with-oci8
+     image: php82oci
      volumes:
       - ./www:/var/www/html
      ports:

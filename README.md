@@ -4,13 +4,13 @@ This Docker image is based on [official PHP images](https://hub.docker.com/_/php
 ## Getting Started
 Follow these instructions to set up and run the PHP image with Oracle OCI8:
 
-1. Clone the repository:
+### Clone the repository:
 ```
 git clone https://github.com/adrianharabula/php-oci8.git
 cd php-oci8
 ```
 
-2. Build and Run the Docker image:
+### Build and Run the Docker image:
 ```
 cd php8.2-apache-oci8
 docker build -t php82 .
@@ -18,7 +18,7 @@ cd ..
 docker compose up -d
 ```
 
-3. Open your web browser and visit http://localhost:8181/ocitest.php. You should see:
+### Open your web browser and visit http://localhost:8181/ocitest.php. You should see:
 ```
 PHP Version: 8.2.13
 Client Version: 21.12.0.0.0

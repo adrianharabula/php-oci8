@@ -10,35 +10,36 @@ ENV SQLPLUS "https://download.oracle.com/otn_software/linux/instantclient/211200
 ENV LD_LIBRARY_PATH "/opt/oracle/instantclient"
 ENV PATH "$PATH:$LD_LIBRARY_PATH"
 
-# Install custom PHP extensions/libraries
-RUN apt-get update && apt-get install -y \
-        unzip \
-        libfreetype-dev libjpeg62-turbo-dev libpng-dev \
-        libaio1 \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) iconv gettext gd
-
 # Install Oracle Instant Client Libraries
 # https://docs.oracle.com/en/database/oracle/oracle-database/21/lacli/install-instant-client-using-zip.html
-RUN cd /tmp && \ 
-    curl -L $INSTANTCLIENT -O && \
-    unzip /tmp/instantclient*.zip -d /opt/oracle/ && \
-    mv /opt/oracle/instantclient_* /opt/oracle/instantclient && \
-    echo /opt/oracle/instantclient > /etc/ld.so.conf.d/oracle-instantclient.conf && \
-    ldconfig
-RUN cd /tmp && \
-    curl -L $INSTANTCLIENT_SDK -O && \
-    unzip /tmp/instantclient-sdk*.zip -d /opt/oracle/ && \
-    mv /opt/oracle/instantclient_*/* /opt/oracle/instantclient
-RUN cd /tmp && \
-    curl -L $SQLPLUS -O && \
-    unzip /tmp/instantclient-sqlplus*.zip -d /opt/oracle/ && \
-    mv /opt/oracle/instantclient_*/* /opt/oracle/instantclient
+RUN apt-get update && apt-get install -y unzip libaio1
+RUN cd /tmp \ 
+    && curl -L $INSTANTCLIENT -O \
+    && unzip /tmp/instantclient*.zip -d /opt/oracle/ \
+    && rm /tmp/instantclient*.zip \
+    && mv /opt/oracle/instantclient_* /opt/oracle/instantclient \
+    && echo /opt/oracle/instantclient > /etc/ld.so.conf.d/oracleinstantclient.conf \
+    && ldconfig
+RUN cd /tmp \
+    && curl -L $INSTANTCLIENT_SDK -O \
+    && unzip /tmp/instantclient-sdk*.zip -d /opt/oracle/ \
+    && rm /tmp/instantclient*.zip \
+    && mv /opt/oracle/instantclient_*/* /opt/oracle/instantclient
+RUN cd /tmp \
+    && curl -L $SQLPLUS -O \
+    && unzip /tmp/instantclient-sqlplus*.zip -d /opt/oracle/ \
+    && rm /tmp/instantclient*.zip \
+    && mv /opt/oracle/instantclient_*/* /opt/oracle/instantclient
 RUN rmdir /opt/oracle/instantclient_*
 
-# Install Oci8 Extension
+# Add custom PHP extensions/libraries
+# Install OCI8 Extension
 # https://pecl.php.net/package/oci8
-RUN echo 'instantclient,/opt/oracle/instantclient' | pecl install oci8 && \
-    docker-php-ext-enable oci8
+RUN apt-get update && apt-get install -y \
+        libfreetype-dev libjpeg62-turbo-dev libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) iconv gettext gd \
+    && echo 'instantclient,/opt/oracle/instantclient' | pecl install oci8 \
+    && docker-php-ext-enable oci8
 
 EXPOSE 80

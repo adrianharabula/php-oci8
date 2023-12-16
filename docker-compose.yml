@@ -9,7 +9,7 @@ services:
    php7-with-oci8:
      depends_on:
        - oracledb
-     image: php82oci
+     image: php82
      volumes:
       - ./www:/var/www/html
      ports:

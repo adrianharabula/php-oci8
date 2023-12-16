@@ -1,13 +1,31 @@
-# PHP 8.2 image with Apache and Oracle oci8
+# PHP image with Oracle Instant Client and OCI8
+This Docker image is based on [official PHP images](https://hub.docker.com/_/php/) and includes the Oracle Instant Client and OCI8 PHP extension. This integration allows connectivity to an Oracle database within the PHP environment.
 
-This image is built from [official PHP images](https://hub.docker.com/_/php/). It ads oci8 drivers to official image to connect to Oracle database.
+## Getting Started
+Follow these instructions to set up and run the PHP image with Oracle OCI8:
 
-Instructions:
+1. Clone the repository:
 ```
-cd php82
-docker build -t php82oci .
+git clone https://github.com/adrianharabula/php-oci8.git
+cd php-oci8
+```
+
+2. Build and Run the Docker image:
+```
+cd php8.2-apache-oci8
+docker build -t php82 .
 cd ..
 docker compose up -d
 ```
 
-Browse http://localhost:8181/ocitest.php and you should see `succesful` if connection to oracle OK.
+3. Open your web browser and visit http://localhost:8181/ocitest.php. You should see:
+```
+PHP Version: 8.2.13
+Client Version: 21.12.0.0.0
+Server Version: Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+```
+
+Feel free to customize the configuration or explore additional features based on your requirements.
+
+# Contributing
+If you have improvements or suggestions, feel free to submit a pull request.
